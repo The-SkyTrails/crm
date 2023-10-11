@@ -1,0 +1,222 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block main-content %}
+
+<div class="container-fluid">
+
+	<!-- Title -->
+	<div class="row heading-bg">
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+			<h5 class="txt-dark">Case Category Document</h5>
+		</div>
+		<!-- Breadcrumb -->
+		<div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+			<ol class="breadcrumb">
+				<li><a href="{% url "travel_dashboards" %}">Dashboard</a></li>
+				{% comment %} <li><a href="#"><span>table</span></a></li> {% endcomment %}
+				<li class="active"><span>Case Category Document</span></li>
+			</ol>
+		</div>
+		<!-- /Breadcrumb -->
+		
+	</div>
+
+	{% include 'dashboard/messages.html' %}
+
+	<div class="form-body">
+		<div class="form-row">
+		   <div class="form-group col-md-3">
+			  <div class="form-group">
+				 <select class="form-control" name="visacountry" id="visacountry">
+					<option value="Visa Country">Visa Country</option>
+				 </select>
+			  </div>
+		   </div>
+		   <div class="form-group col-md-3">
+			  <div class="form-group">
+				 <select class="form-control" name="visacategory" id="visacategory">
+					<option value="Visa Category">Visa Category</option>
+				 </select>
+			  </div>
+		   </div>
+		   <div class="form-group col-md-3">
+			  <button type="search" class="btn btn-primary px-5">Proceed</button>
+		   </div>
+		</div>
+	 </div>
+
+	<div class="ml-auto" style="float:right;margin-bottom:20px;">
+		<a href="{% url 'add_CaseCategoryDocument' %}"><button class="btn btn-primary">Add New</button></a>
+	</div>
+	<!-- /Title -->
+
+	<!-- Row -->
+	<div class="row">
+		<div class="col-sm-12">
+			<div class="panel panel-default card-view">
+				<div class="panel-wrapper collapse in">
+					<div class="panel-body">
+						<div class="table-wrap">
+							<div class="table-responsive">
+								<table id="example" class="table table-hover display  pb-30">
+									<thead>
+										<tr>
+											<th>S.No.</th>
+                           <th>Country Name</th>
+                           <th>Category Name</th>
+                           <th>Sub Category Name</th>
+                           <th>Document Name</th>
+                           <th>Action</th>
+										</tr>
+									</thead>
+									<tfoot>
+										<tr>
+											<th>S.No.</th>
+                           <th>Country Name</th>
+                           <th>Category Name</th>
+                           <th>Sub Category Name</th>
+                           <th>Document Name</th>
+                           <th>Action</th>
+										</tr>
+									</tfoot>
+									<tbody>
+										{% for i in CaseCategoryDocument  %}
+                        <tr>
+                           <td>{{forloop.counter}}</td>
+                           <td>{{i.country}}</td>
+                           <td>{{i.category}}</td>
+                           <td>{{i.subcategory}}</td>
+                           <td>
+                              {% if i.digitalphoto == True %}
+                              	Digital Photo
+							{% endif %}
+									{% if i.passportback == True %}
+									, Passport Back
+									{% endif %}
+									{% if i.passportfront == True %}
+									, Passport Front
+									{% endif %}
+									{% if i.pancard == True %}
+									, Pan Card
+									{% endif %}
+									{% if i.adharcard == True %}
+									, Adhaar Card ,
+									{% endif %}
+									{% if i.gapmonth == True %}
+									  Gap months Evidence
+									{% endif %}
+									{% if i.experience_letter == True %}
+									 , Experience Latter
+									{% endif %}
+									{% if i.gapyear == True %}
+									 , Gap Year Evidence - Optional ,
+									{% endif %}
+									{% if i.masterscertificate == True %}
+									 <br> Masters Certificate
+									{% endif %}
+									{% if i.form16 == True %}
+									 , Form 16 if Applicant Has Govt. Jobs ,
+									{% endif %}
+									{% if i.spouse == True %}
+									Spouse's Bank Balance History For Past 6 month
+									{% endif %}
+									{% if i.itr == True %}
+									, ITR of Spouse For Last 3 Years ,
+									{% endif %}
+									{% if i.spouseworking == True %}
+									<br>Spouse's Working Experience
+									{% endif %}
+									{% if i.spouseenglish == True %}
+									, Spouse's English Language Proficiency Test (IELTS/PTE)
+									{% endif %}
+									{% if i.bankbalance == True %}
+									, Bank Balance Certificate
+									{% endif %}
+									{% if i.itr3years == True %}
+									, ITR of Applicant of Last 3 Years ,
+									{% endif %}
+									{% if i.evidenceofsalary == True %}
+									 <br>Evidence Of Salary
+									{% endif %}
+									{% if i.assetsdocument == True %}
+									 , Assets Documents
+									{% endif %}
+									{% if i.marriagecertificate == True %}
+									 , Marriage Certificate
+									{% endif %}
+									{% if i.spousequalification == True %}
+									 , Spouse Qualification Documents
+									{% endif %}
+									{% if i.bankbalance6month == True %}
+									 , Bank Balance History For Past 6 month
+									{% endif %}
+									{% if i.workexperience == True %}
+									 , <br>Work Experience
+									{% endif %}
+									{% if i.applicantsbankbalance == True %}
+									 , Applicant's Bank Balance Certificate
+									{% endif %}
+									{% if i.parentbankbalance == True %}
+									 , Parent's Bank Balance Certificate
+									{% endif %}
+									{% if i.graduation_diploma == True %}
+									 , Graduation/Diploma Certificate
+									{% endif %}
+									{% if i.parentsid == True %}
+									 , Parent's ID Proof
+									{% endif %}
+									{% if i.parentsitr == True %}
+									 ,<br> Parent's ITR For Last 3 Years
+									{% endif %}
+									{% if i.englishlanguage == True %}
+									 , English language proficiency test (IELTS/PTE)
+									{% endif %}
+									{% if i.studentsbank == True %}
+									 , Student's Bank Statement
+									{% endif %}
+									{% if i.parentbank == True %}
+									 , Parent's Bank statements
+									{% endif %}
+									{% if i.parentdocument == True %}
+									 , Parent's Documents
+									{% endif %}
+									{% if i.passport == True %}
+									 ,<br>Passport
+									{% endif %}
+									{% if i.idproof == True %}
+									 , ID Proof
+									{% endif %}
+									{% if i.certificate_12th == True %}
+									 , 12th Certificate
+									{% endif %}
+									{% if i.certificate_10th == True %}
+									 , 10th  Certificate
+									{% endif %}</td>
+								<td>
+									<div class="row">
+										<div class="col-md-4"><a href="{% url 'editCaseCategoryDocument' i.id %}">
+											<i
+									class='zmdi zmdi-edit'
+									style="font-size: 20px; color:blue;"></i>
+										</a></div>
+										<div class="col-md-4"><a href="{% url "delete_casecategorydocument" i.id %}"><i
+											class='zmdi zmdi-delete'
+											style="font-size: 20px; color:red;"></i></a></div>
+									</div>
+								</td>
+							</tr>
+						{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- /Row -->
+</div>
+
+
+{% endblock main-content %}

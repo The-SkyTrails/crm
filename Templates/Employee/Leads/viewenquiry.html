@@ -1,0 +1,1242 @@
+{% extends 'Employee/Base/base.html' %}
+{% load static %}
+{% block main-content %}
+<style>
+    .top {
+        text-align: left;
+        padding: 20px;
+        color: #21325D;
+    }
+
+    .profile-circle {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        overflow: hidden;
+        /* Hide anything outside the circle */
+    }
+
+    .profile-circle img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        /* Ensure the image covers the entire circle */
+    }
+
+    .profile-name {
+        font-size: 20px;
+        margin-top: 10px;
+    }
+
+    .profile-application {
+        font-size: 16px;
+    }
+
+
+    .section {
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        padding: 10px;
+        color: #21325D;
+    }
+
+    .section:hover {
+        background-color: #f0f0f0;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .form-container {
+        margin: 20px;
+    }
+    .white-container {
+        background-color: rgb(102 122 221 / 85%);
+        padding: 7px 10px; /* Add padding for spacing */
+        display: inline-block; /* Ensure the container only takes the necessary space */
+    }
+    
+</style>
+<style>
+    /* Add your CSS styles here */
+    
+</style>
+
+<div class="container-fluid">
+					
+    <!-- Title -->
+            <div class="row heading-bg">
+                <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+                    <h5 class="txt-dark">Visa Enquiry</h5>
+                </div>
+            
+                <!-- Breadcrumb -->
+                <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+                    <ol class="breadcrumb">
+                        <li><a href="{% url "travel_dashboards" %}">Dashboard</a></li>
+                        {% comment %} <li><a href="#"><span>form</span></a></li> {% endcomment %}
+                        <li class="active"><span>View All Enquiry</span></li>
+                    </ol>
+                </div>
+                <!-- /Breadcrumb -->
+            
+            </div>
+            <div class="top">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-3">
+                                <div class="profile-circle">
+                                    <img src='{% static ' assets/images/NewLogo.png' %}' alt="" srcset="">
+                                </div>
+                            </div>
+                            <div class="col-md-9">
+                                <div class="profile-name">{{enq.FirstName}} {{enq.LastName}}</div>
+                                <div class="profile-application">Enquiry No: {{enq.enquiry_number}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <div class="section" onclick="showForm('general')">Personal Details</div>
+                </div>
+                <div class="col-md-2">
+                    <div class="section" onclick="showForm('followup')">Follow Up</div>
+                </div>
+                <div class="col-md-2">
+                    <div class="section" onclick="showForm('document')">Add Documents</div>
+                </div>
+            </div>
+            <br>
+            <!--end breadcrumb-->
+            <div class="row">
+                <div class="col-12 col-lg-12">
+                    <div class="card border-lg-top-white">
+                        <div class="card-body p-5">
+
+                            <form id="main-form" action="" method="POST" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-body">
+                                    <div id="general-form">
+                                        <h6 class="txt-dark capitalize-font"><i class="zmdi zmdi-account mr-10"></i>Personal Details</h6>
+                                            <hr class="light-grey-hr"/>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Email Address</label>
+                                                <h5>{{enq.email}}</</h5>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Mobile Number</label>
+                                                <h5>{{enq.contact}}</h5>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">First Name</label>
+                                                <h5>{{enq.FirstName}}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Last Name</label>
+                                                <h5>{{enq.LastName}}</h5>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Date Of Birth</label>
+                                                <h5>{{enq.Dob}}</h5>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Gender</label>
+                                                <h5>{{enq.Gender}}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Country Of Citizenship</label>
+                                                <h5>{{enq.Country.name}}</h5>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                        <h6 class="txt-dark capitalize-font"><i class="zmdi zmdi-account mr-10"></i>Enquiry Management</h6>
+                                            <hr class="light-grey-hr"/>
+
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Select Visa Country</label>
+                                                <h5>{{enq.Visa_country.country}}</h5>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Select Visa Category</label>
+                                                <h5>{{enq.Visa_category.category}}</h5>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Select Visa SubCategory</label>
+                                                <h5>{{enq.Visa_subcategory.subcategory_name}}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Visa Type</label>
+                                                <h5>{{enq.Visa_type}}</h5>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Package</label>
+                                                <h5>{{enq.Package.title}}</h5>
+                                            </div>
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Source</label>
+                                                <h5>{{enq.Source}}</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="form-group col-md-4">
+                                                <label class="control-label mb-10">Reference</label>
+                                                <h5>{{enq.Reference}}</h5>
+                                            </div>
+
+                                        </div>
+
+
+                                    </div>
+
+                                    <div id="followup-form" class="hidden">
+                                        <div class="row">
+                                            <h6 class="txt-dark capitalize-font"><i class="zmdi zmdi-file-plus mr-10"></i>Add Notes</h6>
+                                            <hr class="light-grey-hr"/>
+                                            <div class="col-md-8">
+                                                <div style="display: flex; align-items: center;">
+                                                    <label for="date" style="margin-right: 10px;">Date:</label>
+                                                    <h5 id="date">15-09-23</h5>
+                                                </div>
+                                                <br>
+                                                <div style="display: flex; align-items: center;">
+                                                    <label for="date" style="margin-right: 10px;">Note Added By:</label>
+                                                    <h5 id="date">Admin</h5>
+                                                </div>
+                                                <br><br>
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">Title</label>
+                                                    <input type="text" name="title" id="title"
+                                            class="form-control border-left-0" placeholder="Title">
+                                                </div>
+                                                <br>
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">Description</label>
+                                                    <input type="text" name="description" id="description"
+                                            class="form-control border-left-0" placeholder="Description">
+                                                </div>
+                                                <br>
+
+                                                
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">Follow Up Status</label>
+                                                        <select class="form-control" name="news_type" id="news_type">
+                                                            <option value="---">---</option>
+                                                            
+                                                        </select>
+                                                    </div>
+                                                
+
+                                                <label class="control-label mb-10">Priority</label>
+                                                <br>
+                                                <div class="row control-label mb-10">
+                                                    <div class="col-md-3">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="priority"
+                                                                id="high" value="1">
+                                                            <label class="form-check-label" for="inlineRadio1">High</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="priority"
+                                                                id="medium" value="2">
+                                                            <label class="form-check-label" for="inlineRadio2">Medium</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="priority"
+                                                                id="low" value="3">
+                                                            <label class="form-check-label" for="inlineRadio3">Low</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br><br>
+
+                                                <br>
+
+                                                <button type="submit" class="btn btn-primary px-5">Update</button>
+                                                <br>
+                                                <hr class="light-grey-hr"/>
+                                                <div class="card-title d-flex align-items-center">
+                                                    <div><i class='bx bxs-user mr-1 font-24 text-white'></i>
+                                                    </div>
+                                                    <h4 class="mb-0 text-white">Schedule Follow Up</h4>
+                                                </div>
+<br><br>
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">Calender</label>
+                                                    <input type="date" name="calender" id="calender"
+                                            class="form-control border-left-0" placeholder="Calender">
+                                                </div>
+                                                <br>
+
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">Time</label>
+                                                    <input type="time" name="time" id="time"
+                                            class="form-control border-left-0" placeholder="Time">
+                                                </div>
+                                                <br>
+
+                                                <label class="control-label mb-10">Priority</label>
+                                                <br>
+                                                <div class="row control-label mb-10">
+                                                    <div class="col-md-3">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="priority"
+                                                                id="high" value="1">
+                                                            <label class="form-check-label" for="inlineRadio1">High</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="priority"
+                                                                id="medium" value="2">
+                                                            <label class="form-check-label" for="inlineRadio2">Medium</label>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="form-check form-check-inline">
+                                                            <input class="form-check-input" type="radio" name="priority"
+                                                                id="low" value="3">
+                                                            <label class="form-check-label" for="inlineRadio3">Low</label>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <br>
+                                                <br>
+                                                <div class="form-group">
+                                                    <label class="control-label mb-10">Remark</label>
+                                                    <input type="text" name="remark" id="remark"
+                                            class="form-control border-left-0" placeholder="Remark">
+                                                </div>
+
+                                            </div>
+                                            <div class="col-md-4">
+                                                <h5>Notes:</h5>
+                                            </div>
+                                        </div>
+                                        <br><br>
+                                        <button type="submit" class="btn btn-primary px-5">Update</button>
+                                    </div>
+
+                                    <div id="document-form" class="hidden">
+                                        <div class="row">
+                                            <div class="ink">
+                                                <button type="button" class="btn btn-primary mr-2" data-toggle="modal"
+                                                    data-target="#additionalDocumentsModal" style="float:right;">
+                                                    Add Additional Documents
+                                                </button>
+                                            <h6 class="txt-dark capitalize-font"><i class="zmdi zmdi-file-plus mr-10"></i>Upload Document</h6>
+                                            </div>
+                                            
+                                          <br>
+                                          <br>
+                                          <div class="modal fade" id="additionalDocumentsModal" tabindex="-1"
+                                                    role="dialog" aria-labelledby="additionalDocumentsModalLabel"
+                                                    aria-hidden="true">
+                                                    <div class="modal-dialog modal-dialog-centered">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header">
+                                                                <h5 class="modal-title"
+                                                                    id="additionalDocumentsModalLabel">Add
+                                                                    Additional Documents</h5>
+                                                                <button type="button" class="close" data-dismiss="modal"
+                                                                    aria-label="Close">
+                                                                    <span aria-hidden="true">&times;</span>
+                                                                </button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <div class="control-label mb-10">
+                                                                    <label class="control-label mb-10">Document Name</label>
+                                                                    <div class="form-group">
+                                                                        <div class="input-group-prepend"> <span
+                                                                                class="input-group-text"><i
+                                                                                    class='bx bx-user'></i></span>
+                                                                        </div>
+                                                                        <input type="text" name="documentname"
+                                                                            id="documentname"
+                                                                            class="form-control border-left-0"
+                                                                            placeholder="Document Name">
+                                                                    </div>
+                                                                    <label class="control-label mb-10">Enter Comment</label>
+                                                                    <div class="input-group">
+                                                                        <textarea class="form-control" name="comment"
+                                                                            id="" cols="60" rows="10"></textarea>
+                                                                    </div>
+
+
+                                                                    <br>
+                                                                    <br>
+
+                                                                    <label class="control-label mb-10">Upload Document</label>
+                                                                    <div class="input-group">
+                                                                        <input id="image" type="file"
+                                                                            accept=".xlsx,.xls,image/*,.doc,audio/*,.docx,video/*,.ppt,.pptx,.txt,.pdf"
+                                                                            name="files" multiple>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="modal-footer">
+                                                                <button type="submit" class="btn btn-default" data-dismiss="modal">Close</button>
+                                                                <button type="submit" class="btn btn-primary">Save</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                        <button id="toggle-table-button-1">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Bank Documents</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="bankdocument-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Spouse's Bank Balance History For Past 6 month
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Bank Balance Certificate
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Bank Balance History For Past 6 month
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>4</td>
+                                                    <td>Applicant's Bank Balance Certificate
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr class="light-grey-hr"/>
+                                        <button id="toggle-table-button-2">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Tax Documents</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="taxdocument-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>ITR of Spouse For Last 3 Years
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>ITR of Applicant of Last 3 Years
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                               
+                                            </tbody>
+                                        </table>
+                                        <hr class="light-grey-hr"/>
+                                        <button id="toggle-table-button-3">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Others</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="othersdocument-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Spouse's Working Experience
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Assets Documents
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>Work Experience
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr class="light-grey-hr"/>
+                                        <button id="toggle-table-button-4">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Language Test Certificate</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="language-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Spouse's English Language Proficiency Test (IELTS/PTE)
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>English language proficiency test (IELTS/PTE)
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                               
+                                            </tbody>
+                                        </table>
+                                        <hr class="light-grey-hr"/>
+                                        <button id="toggle-table-button-5">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Salary Slip</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="salaryslip-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Evidence Of Salary
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        <hr class="light-grey-hr"/>
+                                        <button id="toggle-table-button-6">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Marriage Certificate</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="marriage-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Marriage Certificate
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        <hr class="light-grey-hr"/>
+                                        <button id="toggle-table-button-7">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Educational Certificate</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="educationaldocument-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Spouse Qualification Documents
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>Graduation/Diploma Certificate
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>12th Certificate
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>3</td>
+                                                    <td>10th Certificate
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                        <hr class="light-grey-hr"/>
+                                        <button id="toggle-table-button-8">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Identification Certificate</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="identificationdocument-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Passport
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                <tr>
+                                                    <td>2</td>
+                                                    <td>ID Proof
+                                                        (Document Max size should be 10 MB)</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        <hr class="light-grey-hr"/>
+                                        <button id="toggle-table-button-9">
+                                            <span>+</span>
+                                        </button>
+                                        <span>Additional Document</span>&nbsp;&nbsp;
+                                        <span class="btn " style="border-radius: 20px; background-color: rgba(0, 128, 0, 0.2); color: green;">07 Received</span>
+                                        <br><br>
+                                        <table id="additionaldocument-table" class="table table-bordered hidden">
+                                            <thead>
+                                                <tr>
+                                                    <th>S.No.</th>
+                                                    <th>Document Name</th>
+                                                    <th>File Name</th>
+                                                    <th>Data Uploaded</th>
+                                                    <th>Last Uploaded</th>
+                                                    <th>Uploaded By</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <td>1</td>
+                                                    <td>Add</td>
+                                                    <td>
+                                                            XYZ
+                                                      <br>
+                                                      <div class="row">
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-eye" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    
+                                                        <div class="white-container">
+                                                            <a href="http://"><i class="zmdi zmdi-download" style="font-size: 20px; color: white;"></i></a>
+                                                        </div>
+                                                    </div>
+                                                        </td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>XYZ</td>
+                                                        <td>
+                                                            <form id="upload-form" enctype="multipart/form-data">
+                                                                <input type="file" id="file-upload" style="display: none;">
+                                                                <button class="btn btn-primary" type="button" onclick="handleUploadClick()">Upload Now</button>
+                                                            </form>
+                                                        </td>
+                                                </tr>
+                                                
+                                            </tbody>
+                                        </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!--end row-->
+</div>
+<script>
+    function showForm(section) {
+        console.log('Toggling form for section: ' + section);
+
+        // Hide all forms
+        document.getElementById('general-form').classList.add('hidden');
+        document.getElementById('followup-form').classList.add('hidden');
+        document.getElementById('document-form').classList.add('hidden');
+
+        // Show the selected form
+        document.getElementById(section + '-form').classList.remove('hidden');
+    }
+</script>
+<script>
+    function toggleTable(tableId, buttonId) {
+        var table = document.getElementById(tableId);
+        var button = document.getElementById(buttonId);
+
+        if (table.classList.contains('hidden')) {
+            table.classList.remove('hidden');
+            button.innerText = '-';
+        } else {
+            table.classList.add('hidden');
+            button.innerText = '+';
+        }
+    }
+
+    document.getElementById('toggle-table-button-1').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('bankdocument-table', 'toggle-table-button-1');
+    });
+
+    document.getElementById('toggle-table-button-2').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('taxdocument-table', 'toggle-table-button-2');
+    });
+
+    document.getElementById('toggle-table-button-3').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('othersdocument-table', 'toggle-table-button-3');
+    });
+
+    document.getElementById('toggle-table-button-4').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('language-table', 'toggle-table-button-4');
+    });
+
+    document.getElementById('toggle-table-button-5').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('salaryslip-table', 'toggle-table-button-5');
+    });
+
+    document.getElementById('toggle-table-button-6').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('marriage-table', 'toggle-table-button-6');
+    });
+
+    document.getElementById('toggle-table-button-7').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('educationaldocument-table', 'toggle-table-button-7');
+    });
+
+    document.getElementById('toggle-table-button-8').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('identificationdocument-table', 'toggle-table-button-8');
+    });
+
+    document.getElementById('toggle-table-button-9').addEventListener('click', function (event) {
+        event.preventDefault();
+        toggleTable('additionaldocument-table', 'toggle-table-button-9');
+    });
+</script>
+<script>
+    function handleUploadClick() {
+        // Trigger the file input click event
+        document.getElementById('file-upload').click();
+    }
+    
+    // Prevent form submission
+    document.getElementById('upload-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        // Handle the file upload logic here (e.g., AJAX request to upload the file).
+    });
+</script>    
+{% endblock main-content %}

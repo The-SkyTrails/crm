@@ -1,0 +1,365 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+{% block main-content %}
+
+<div class="container-fluid">
+
+    <!-- Title -->
+    <div class="row heading-bg">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h5 class="txt-dark">Case Category Document</h5>
+        </div>
+
+        <!-- Breadcrumb -->
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <ol class="breadcrumb">
+                <li><a href="{% url "travel_dashboards" %}">Dashboard</a></li>
+                <li><a href="{% url "CaseCategoryDocument_list" %}"><span>All Category</span></a></li>
+                <li class="active"><span>Update Category</span></li>
+            </ol>
+        </div>
+        <!-- /Breadcrumb -->
+
+    </div>
+    {% include 'dashboard/messages.html' %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="panel panel-default card-view">
+                <div class="panel-heading">
+                    <div class="pull-left">
+                        <h6 class="panel-title txt-dark">Update Category</h6>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+                <div class="panel-wrapper collapse in">
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="form-wrap">
+                                    <form action="" method="POST">
+                                        {% csrf_token %}
+                                        <div class="form-body">
+                                            <h6 class="txt-dark capitalize-font"><i
+                                                    class="zmdi zmdi-account mr-10"></i>General Information</h6>
+                                            <hr class="light-grey-hr" />
+                                            <div class="row">
+
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">Country</label>
+                                                        {{form.country}}
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">Category</label>
+                                                        {{form.category}}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <div class="form-group">
+                                                        <label class="control-label mb-10">SubCategory</label>
+                                                        {{form.subcategory}}
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <label>Select Document</label>
+                                            <br><br>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        {% comment %} <input class="form-check-input" type="checkbox" value="digitalphoto" id="digitalphoto"> {% endcomment %}
+                                                        <input class="form-check-input" type="checkbox" name="digitalphoto" id="digitalphoto"
+                                                        {% if form.digitalphoto.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="digitalphoto">
+                                                             Digital Photo 
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="passportback" id="passportback" name="passportback"
+                                                        {% if form.passportback.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="passportback">Passport Back</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="passportfront" name="passportfront" id="passportfront"
+                                                        {% if form.passportfront.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="passportfront">Passport Front</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="pancard" id="pancard" name="pancard"
+                                                        {% if form.pancard.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="pancard">PanCard</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="adharcard" id="adharcard" name="adharcard"
+                                                        {% if form.adharcard.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="adharcard">AdhaarCard</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="gapmonth" id="gapmonth" name="gapmonth"
+                                                        {% if form.gapmonth.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="gapmonth">Gap Months Evidence</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="experience letter" id="experience letter" name="experience_letter"
+                                                        {% if form.experience_letter.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="experience letter">Experience Letter</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="gapyear" id="gapyear" name="gapyear"
+                                                        {% if form.gapyear.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="gapyear">Gap Year Evidence-Optional</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="masterscertificate" id="masterscertificate" name="masterscertificate"
+                                                        {% if form.masterscertificate.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="masterscertificate">Masters Certificate</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="form16" id="form16" name="form16"
+                                                        {% if form.form16.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="form16">Form 16 if Applicant has Govt. Job</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="spouse" id="spouse" name="spouse"
+                                                        {% if form.spouse.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="spouse">Spouse's Bank Balance History for Past 6 month</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="itr" id="itr" name="itr"
+                                                        {% if form.itr.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="itr">ITR of Spouse For Last 3 Years</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="spouseworking" id="spouseworking" name="spouseworking"
+                                                        {% if form.spouseworking.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="spouseworking">Spouse's Working Experience</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="spouseenglish" id="spouseenglish" name="spouseenglish"
+                                                        {% if form.spouseenglish.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="spouseenglish">Spouse's English Language Proficiency Test (IELTS/PTE)</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="bankbalance" id="bankbalance" name="bankbalance"
+                                                        {% if form.bankbalance.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="bankbalance">Bank Balance Certificate</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="itr3years" id="itr3years" name="itr3years"
+                                                        {% if form.itr3years.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="itr3years">ITR of Applicant of Last 3 Years</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="evidenceofsalary" id="evidenceofsalary" name="evidenceofsalary"
+                                                        {% if form.evidenceofsalary.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="evidenceofsalary">Evidence Of Salary</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="assetsdocument" id="assetsdocument" name="assetsdocument"
+                                                        {% if form.assetsdocument.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="assetsdocument">Assets Documents</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="marriagecertificate" id="marriagecertificate" name="marriagecertificate"
+                                                        {% if form.marriagecertificate.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="marriagecertificate">Marriage Certificate</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="spousequalification" id="spousequalification" name="spousequalification"
+                                                        {% if form.spousequalification.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="spousequalification">Spouse Qualification Documents</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="bankbalance6month" id="bankbalance6month" name="bankbalance6month"
+                                                        {% if form.bankbalance6month.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="bankbalance6month">Bank Balance History For Past 6 month</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="workexperience" id="workexperience" name="workexperience"
+                                                        {% if form.workexperience.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="workexperience">Work Experience</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="applicantsbankbalance" id="applicantsbankbalance" name="applicantsbankbalance"
+                                                        {% if form.applicantsbankbalance.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="applicantsbankbalance">Applicant's Bank Balance Certificate</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="parentbankbalance" id="parentbankbalance" name="parentbankbalance"
+                                                        {% if form.parentbankbalance.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="parentbankbalance">Parent's Bank Balance Certificate</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="graduation/diploma" id="graduation/diploma" name="graduation_diploma"
+                                                        {% if form.graduation_diploma.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="graduation/diploma">Graduation/Diploma Certificate</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="parentsid" id="parentsid" name="parentsid"
+                                                        {% if form.parentsid.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="parentsid">Parent's ID Proof</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="parentsitr" id="parentsitr" name="parentsitr"
+                                                        {% if form.parentsitr.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="parentsitr">Parent's ITR For Last 3 Years</label>
+                                                    </div>
+                                                </div>
+                                            </div> 
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="englishlanguage" id="englishlanguage" name="englishlanguage"
+                                                        {% if form.englishlanguage.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="englishlanguage">English language proficiency test (IELTS/PTE)</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="studentsbank" id="studentsbank" name="studentsbank"
+                                                        {% if form.studentsbank.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="studentsbank">Student's Bank Statement</label>
+                                                    </div>
+                                                </div>
+        
+                                                
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="parentbank" id="parentbank" name="parentbank"
+                                                        {% if form.parentbank.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="parentbank">Parent's Bank statements</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="parentdocument" id="parentdocument" name="parentdocument"
+                                                        {% if form.parentdocument.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="parentdocument">Parent's Documents</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="passport" id="passport" name="passport"
+                                                        {% if form.passport.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="passport">Passport</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="idproof" id="idproof" name="idproof"
+                                                        {% if form.idproof.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="idproof">ID Proof</label>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="certificateteh" id="certificateteh" name="certificate_12th"
+                                                        {% if form.certificate_12th.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="certificateteh">12th Certificate</label>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group col-md-4">
+                                                    <div class="form-check">
+                                                        <input class="form-check-input" type="checkbox" value="10thcertificate" id="10thcertificate" name="certificate_10th"
+                                                        {% if form.certificate_10th.value == 1 %} checked {% endif %}>
+                                                        <label class="form-check-label" for="10thcertificate">10th Certificate</label>
+                                                    </div>
+                                                </div>
+                                                
+                                            </div>
+
+                                            <br><br>
+                                        </div>
+                                        <div class="form-actions mt-10">
+                                            <button type="submit" class="btn btn-success  mr-10"> Update</button>
+                                            <button type="button" class="btn btn-default">Cancel</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock main-content %}

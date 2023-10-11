@@ -1,0 +1,158 @@
+{% load static %}
+
+
+<div class="fixed-sidebar-left">
+    <ul class="nav navbar-nav side-nav nicescroll-bar">
+        {% comment %} {% for menu_item in asgn_rol.menu_name.all %}
+            {% if menu_item.name == "Add Leads" %} {% endcomment %}
+                <li>
+                    <a href="{% url "employee_dashboard" %}">
+                        <div class="pull-left"><i class="zmdi zmdi-book mr-20"></i><span class="right-nav-text">Dashboard</span></div>
+                        <div class="clearfix"></div>
+                    </a>
+                </li>
+            {% comment %} {% endif %}
+        {% endfor %} {% endcomment %}
+
+        {% for menu_item in asgn_rol.menu_name.all %}
+        {% if menu_item.name == "Add Leads" or request.user.employee.department.name == "HR" %}
+        <li>
+            <a href="{% url "addemployee_leads" %}"><div class="pull-left"><i class="zmdi zmdi-cast mr-20"></i><span class="right-nav-text">Add Lead</span></div><div class="clearfix"></div></a>
+        </li>
+        {% endif %}
+        {% endfor %}
+        {% comment %} <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#app_dr"><div class="pull-left"><i class="zmdi zmdi-assignment mr-20"></i><span class="right-nav-text">Enquiry</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="app_dr" class="collapse collapse-level-1">
+                <li>
+                    <a href="{% url 'Employee_FrontWebsiteEnquiry_list' %}">Front-Website Enquiry</a>
+                </li>
+                <li>
+                    <a href="{% url 'employee_leads' %}">Visa Enquiries</a>
+                </li>
+            </ul>
+        </li> {% endcomment %}
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#contact_dr"><div class="pull-left"><i class="zmdi zmdi-card-travel mr-20"></i><span class="right-nav-text">Application <span style="margin-left:35px;">Management</span></span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="contact_dr" class="collapse collapse-level-1">
+                <li>
+                    <a href="{% url "Employee_enroll_application" %}">Enrolled Applications</a>
+                </li>
+                <li>
+                    <a href="{% url "Employee_client_list" %}">Visa Cases</a>
+                </li>
+                <li>
+                    <a href="#">User Documents</a>
+                </li>
+                <li>
+                    <a href="#">Case Payments</a>
+                </li>
+                
+            </ul>
+        </li>
+
+        {% if asgn_rol.department.name == "HR" %}
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#email_dr"><div class="pull-left"><i class="zmdi zmdi-accounts-add mr-20"></i><span class="right-nav-text">Employee <span style="margin-left:35px;">Management</span></span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="email_dr" class="collapse collapse-level-1">
+                <li>
+                    <a href="{% url 'Employee_add_employee' %}">Add Employee</a>
+                </li>
+                <li>
+                    <a href="{% url 'Employee_all_employee' %}">View Employees</a>
+                </li>
+            </ul>
+        </li>
+        {% endif %}
+
+        {% if asgn_rol.department.name == "HR" %}
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#pages_dr"><div class="pull-left"><i class="zmdi zmdi-layers mr-20"></i><span class="right-nav-text">Roles Management</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="pages_dr" class="collapse collapse-level-1">
+                <li> <a href="{% url "Employee_Department_list" %}" ></i>Role</a>
+                </li>
+                <li> <a href="{% url "Employee_add_menu" %}"></i>Add Menu</a>
+                </li>
+                <li> <a href="{% url "Employee_Menu_list" %}"></i>Menu List</a>
+                </li>
+                <li> <a href="{% url "Employee_assign_permissions" %}" ></i>Assign Roles</a>
+                </li>
+                <li> <a href="{% url "Employee_assignrolelist" %}" ></i>Assign Role List</a>
+                </li>
+            </ul>
+        </li>
+        {% endif %}
+        
+        
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#maps_dr"><div class="pull-left"><i class="zmdi zmdi-info-outline mr-20"></i><span class="right-nav-text">General</span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="maps_dr" class="collapse collapse-level-1">
+                <li> <a href="{% url "Employee_loginlog" %}" target="" ></i>Login Logs</a>
+                </li>
+                <li> <a href="{% url 'Employee_SuccessStories_list' %}" ></i>Manage Success Stories</a>
+                </li>
+                <li> <a href="#" ></i>Feedback</a>
+                </li>
+                <li> <a href="#" ></i>Support</a>
+                </li>
+                <li> <a href="#" ></i>Courier Document</a>
+                </li>
+                <li> <a href="{% url 'Employee_News_list' %}" ></i>Manage News</a>
+                </li>
+                <li> <a href="#" ></i>Agent Requests</a>
+                </li>
+                <li> <a href="{% url 'Employee_OfferBanner_list' %}" ></i>Offer Banners</a>
+                </li>
+            </ul>
+        </li>
+        {% comment %} {% for menu_item in asgn_rol.menu_name.all %}
+        {% if menu_item.name == "Add Leads" or request.user.employee.department.name == "HR" %}
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#icon_dr"><div class="pull-left"><i class="zmdi zmdi-accounts-outline mr-20"></i><span class="right-nav-text">Agent Management </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="icon_dr" class="collapse collapse-level-1">
+                <li> <a href="{% url 'Employee_add_agent' %}" ></i>Add Agent/Outsourcing Partner</a>
+                </li>
+                <li> <a href="{% url "Employee_all_agent" %}" ></i>All Agents/Outsourcing Partners</a>
+                </li>
+            </ul>
+        </li>
+        {% endif %}
+        {% endfor %} {% endcomment %}
+        
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#chart_dr"><div class="pull-left"><i class="zmdi zmdi-volume-up mr-20"></i><span class="right-nav-text">Follow ups </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="chart_dr" class="collapse collapse-level-1">
+                <li> <a href="#" ></i>My Follow ups</a>
+                </li>
+            </ul>
+        </li>
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#form_dr"><div class="pull-left"><i class="zmdi zmdi-mall mr-20"></i><span class="right-nav-text">Packages </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="form_dr" class="collapse collapse-level-1">
+                {% comment %} <li> <a href="{% url 'Employee_add_Package' %}" ></i>Add Package</a>
+                </li> {% endcomment %}
+                <li> <a href="{% url 'Employee_Package_list' %}" ></i>View Packages</a>
+                </li>
+            </ul>
+        </li>
+        {% comment %} <li>
+            <a href="#"><div class="pull-left"><i class="zmdi zmdi-comments mr-20"></i><span class="right-nav-text">Chat</span></div><div class="clearfix"></div></a>
+        </li> {% endcomment %}
+        <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#ui_dr"><div class="pull-left"><i class="zmdi zmdi-settings mr-20"></i><span class="right-nav-text">Settings </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="ui_dr" class="collapse collapse-level-1">
+                <li> <a href="{% url "Employee_ChangePassword" %}"  ></i>Change Password</a>
+                </li>
+            </ul>
+        </li>
+        
+        {% comment %} <li>
+            <a href="javascript:void(0);" data-toggle="collapse" data-target="#dashboard_dr"><div class="pull-left"><i class="zmdi zmdi-card-alert mr-20"></i><span class="right-nav-text">Appointments </span></div><div class="pull-right"><i class="zmdi zmdi-caret-down"></i></div><div class="clearfix"></div></a>
+            <ul id="dashboard_dr" class="collapse collapse-level-1">
+                <li> <a href="{% url "Employee_all_appointment" %}" ></i>View Appointments</a>
+                </li>
+            </ul>
+        </li> {% endcomment %}
+    </ul>
+</div>
+
